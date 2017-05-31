@@ -1,11 +1,11 @@
 # 模板引擎
 
 ## 目录
-   * 1. [简介](1.1.md)
-   * 2. [volt 基本语法](1.2.md)
-   * 3. [volt 内置方法](1.3.md)
-   * 4. [五星网站主题对象](1.4.md)
-   * 5. [小结](1.5.md)
+   1. [简介](1.1.md)
+   2. [volt 基本语法](1.2.md)
+   3. [volt 内置方法](1.3.md)
+   4. [五星网站主题对象](1.4.md)
+   5. [小结](1.5.md)
 
 
 
@@ -29,8 +29,11 @@
 ###开始与结束标记
 
    Volt模板在不同的场景使用不同的开始和结束标记: 
-   {% 和 %} 用于流程控制语句如if判断、for循环及赋值处理等等    
+
+   {% 和 %} 用于流程控制语句如if判断、for循环及赋值处理等等  
+
    {{ 和 }} 用于在模板中输出变量或表达式的执行结果。
+
    {# 和 #} 用于输出注释内容
 
 ###变量（Variables）
@@ -73,20 +76,19 @@
 
 ###过滤器（Filters)
 输出变量的时候可以通过为变量添加过滤器来过滤/格式化变量
+
 操作符 | 用于为变量添加过滤器
+
 {{ product.name|e }}
+
 {{ product.name|striptags }}
+
 {{ product.name|capitalize|trim }}
 
 以下是Volt模板内置的过滤器列表:
 
 |过滤器	|	描述|
-|:--:|:--:|:--:|:--:|:--:|
-|e| 	Applies Phalcon\Escaper->escapeHtml() to the value|
-|escape |	Applies Phalcon\Escaper->escapeHtml() to the value|
-|escape_css| 	Applies Phalcon\Escaper->escapeCss() to the value|
-|escape_js| 	Applies Phalcon\Escaper->escapeJs() to the value|
-|escape_attr| 	Applies Phalcon\Escaper->escapeHtmlAttr() to the value|
+|:--:|:--:|
 |trim| 删除左右两侧多余的空格|
 |left_trim| 删除左侧多余的空格|
 |right_trim| 删除右侧多余的空格|
@@ -106,23 +108,241 @@
 |json_decode|  对 JSON 格式的字符串进行解码|
 |abs| 	取绝对值|
 |url_encode| 	编码 URL 字符串|
-|default 	| 为变量设置一个默认值（如果变量为空且不等于false）|
+|default 	| 为变量设置一个默认值（如果变量为空或未设置）|
 |convert_encoding| 	转换字符编码|
 
-扩展 escasper的方法   扩展length方法
+`trim` 
+
+输入：
+
+    {% set name=' 小明 ' %}
+    {{ name|trim }}
+
+输出：
+
+    小明
+
+`left_trim` 
+
+输入：
+
+    {% set name=' 小明 ' %}
+    {{ name|left_trim }}
+
+输出：
+
+    小明 
+
+`right_trim` 
+
+输入：
+
+    {% set name=' 小明 ' %}
+    {{ name|right_trim }}
+
+输出：
+  
+     小明
+
+`striptags`
+
+  输入：
+
+    {% set name='<div>小明</div>' %}
+    {{ name|striptags }}
+
+  输出：
+
+    小明
+
+`slashes`
+
+输入：
+
+    {% set name='"小明"' %}
+    {{ name|striptags }}
+
+输出：
+
+    \"小明\"
+
+
+`capitalize`
+
+输入：
+
+    {% set name='my name' %}
+    {{ name|capitalize }}
+
+输出：
+
+    My Name
+
+`lower`
+
+输入：
+
+    {% set name='MY Name' %}
+    {{ name|lower }}
+
+输出：
+
+    my name
+
+`upper`
+
+输入：
+
+    {% set name='my name 你好' %}
+    {{ name|striptags }}
+
+输出：
+
+    MY NAME 你好
+
+`length`
+
+输入：
+
+    {% set data= ['小明','小红','小强'] %}
+    {{ data|length }}
+
+输出：
+
+    3
+
+`nl2br`
+
+输入：
+
+    {% set name= 'a\nb\nc' %}
+    {{ data|length }}
+
+输出：
+
+    a<br/>b<br/>c
+
+`sort`
+
+输入：
+
+    {% set data= ['a'=>3,'b'=>1,'c'=>2] %}
+    {{ data|sort }}
+
+输出：
+
+    ['b'=>1,'c'=>2,a'=>3]
+
+
+`keys`
+
+输入：
+
+    {% set data= ['a'=>3,'b'=>1,'c'=>2] %}
+    {{ data|keys }}
+
+输出：
+
+    ['a','b','c']
+
+`join`
+
+输入：
+
+    {% set string= 'a,b,c' %}
+    {{ string|join(",") }}
+
+输出：
+
+    ['a','b','c']
+
+
+`format`
+
+用法示例：
+
+    {{ "My real name is %s"|format(name) }}
+
+`json_encode`
+
+示例：
+
+    {% set encoded = robots|json_encode %}
+
+
+`json_decode`
+
+示例：
+
+    {% set decoded = '{"one":1,"two":2,"three":3}'|json_decode %}
+
+`abs`
+
+用法示例：
+
+输入：
+
+    {% set a = 2 %}
+    {{ a|abs }}
+    {% set a = -3 %}
+    {{ a|abs }}
+
+输出：
+
+    2
+    3
+
+`url_encode`
+
+用法示例：
+输入：
+
+    {% set url = 'http://www.baidu.com' %}
+    {{ url|url_encode }}
+
+输出：
+
+    http%3A%2F%2Fwww.baidu.com
+
+`default`
+
+用法示例：
+
+输入：
+
+    {% set name = '小红' %}
+    {{ name|default('小明') }}
+    {% set name = '' %}
+    {{ name|default('小明') }}
+
+输出：
+
+    小红
+    小明
+
+
+`convert_encoding`
+
+用法示例：
+
+    {# 将latin1编码转换为utf8 #}
+    {{ "désolé"|convert_encoding('utf8', 'latin1') }}
+
 
 ###注释（Comments）
 
 在{# 和 #} 之间的内容在输出的时候将被忽略，只作为注释内容在源码中展示
 
-例如:
+在源码中输入以下内容：
+
 输入：
 
-`{# 这里是注释 #}`
+    {# 这里是注释 #}
+    <div>abcd</div>
 
 输出：
 
-` `
+    <div>abcd</div>
 
 
 ###流程控制
@@ -183,7 +403,7 @@ if
 loop中主要包含以下可用变量：
 
 |变量	|	描述|
-|:--:|:--:|:--:|:--:|:--:|
+|:--:|:--:|
 |loop.index| 	迭代生成器的当前索引值|
 |loop.index0| 	迭代生成器的第一个索引值|
 |loop.revindex| 	indexed)|
@@ -217,23 +437,35 @@ loop中主要包含以下可用变量：
 
 volt模板引擎提供表达式支持，包括文字和常见操作符
 
-eg: {{ (1 + 1) * 2 }}
+输入: 
+
+    {{ (1 + 1) * 2 }}
+
+输出：
+
+    4
 
 如果表达式结果无需输出显示，则可以在前面加上do操作符
 
-eg：{% do (1 + 1) * 2 %}
+输入：
+
+    {% do (1 + 1) * 2 %}
+
+输出：
+
+    此时只会执行表达式，不会有任何输出
 
 ###运算符
 运算符主要包括算术运算符、比较运算符、逻辑运算符合其它运算符
 
 ####算术运算符
-|操作符	|	作用|
-|:--:|:--:|:--:|:--:|:--:|
-|+| 	加法操作|
-|-|     减法操作|
-|*| 	乘法操作|
-|/|     除法操作|
-|%| 	取余操作|
+|操作符	|	作用|示例
+|:--:|:--:|:--:|
+|+| 	加法操作|{% a+b %}|
+|-|   减法操作|{% a-b %}|
+|*| 	乘法操作|{% a*b %}|
+|/|   除法操作|{% a/b %}|
+|%| 	取余操作|{% a%b %}|
 
 ####比较运算符
 |操作符	|	作用|
@@ -258,9 +490,9 @@ eg：{% do (1 + 1) * 2 %}
 
 ####其它运算符
 |操作符	|	作用|
-|:--:|:--:|:--:|:--:|:--:|
+|:--:|:--:|
 |~| 	连接两个操作数|
-|\||     为最左侧变量增加过滤器|
+|&#124;|  为最左侧变量增加过滤器|
 |..| 	创建一个包含指定范围单元的数组|
 |is|     等于|
 |in| 	检查表达式是否包含在其他表达式中|
@@ -272,25 +504,93 @@ eg：{% do (1 + 1) * 2 %}
 ###函数
 
 |方法名	|	作用|
-|:--:|:--:|:--:|:--:|:--:|
-|content| 	将在此之前输出的内容包含进来|
-|get_content| content方法的别名|
-|partial| 	在当前模板中动态调取一个代码片段|
-|super| 渲染父节点中的内容|
+|:--:|:--:|
+|content| 	将在此之前输出的内容包含进来（重写？）|
+|get_content| content方法的别名（重写？）|
+|partial| 	在当前模板中动态调取一个代码片段（重写？）|
+|super| 获取（渲染）父模板中的内容（重写？）|
 |time| 	返回当前的 Unix 时间戳|
 |date| 	格式化输出一个本地时间／日期 |
 |dump| 	输出一个或多个表达式的结构信息，包括表达式的类型与值。数组将递归展开值，通过缩进显示其结构。|
 |version| 	获取框架的当前版本（禁用）|
 |constant| 	读取php的静态变量（禁用）|
-|url| 	生成url|
+|url| 	生成url（禁用）|
+
+`super`
+  用法示例：
+
+      {# main.volt #}
+      <!DOCTYPE html>
+      <html>
+          <head>
+              <title>Title</title>
+          </head>
+          <body>
+              {% block content %}<h1>Table of contents</h1>{% endblock %}
+          </body>
+      </html>
 
 
+      {# layout.volt #}
+      {% extends "main.volt" %}
+      {% block content %}
+          {{ super() }}
+          <h2>contents 2</h2>
+      {% endblock %}
 
+渲染后输出：
+
+      <!DOCTYPE html>
+      <html>
+          <head>
+              <title>Title</title>
+          </head>
+          <body>
+              <h1>Table of contents</h1>
+              <h2>contents 2</h2>
+          </body>
+      </html>
+
+`time`
+
+用法示例：
+
+    {% set now = time() %}
+
+`date`
+
+用法示例：
+
+输入：
+
+    {{ date('Y年m月d日 H:i:s',1496222729) }}
+输出：
+
+    2017年5月31日 17:25:29
+
+`dump`
+
+用法示例：
+
+输入：
+
+    {% set data = ['one': 1, 'two': 2, 'three': 3] %}
+    {{ dump(data) }}
+输出：
+
+    array(3) {
+      ["one"]=>
+      int(1)
+      ["two"]=>
+      int(2)
+      ["three"]=>
+      int(3)
+    }
 
 ###校验方法
 
 |方法名	|	作用|
-|:--:|:--:|:--:|:--:|:--:|
+|:--:|:--:|
 |defined| 	检查变量是否被定义|
 |empty| 	检查变量是否为空|
 |even| 	检查变量值是否是偶数|
@@ -298,55 +598,112 @@ eg：{% do (1 + 1) * 2 %}
 |numeric| 	检查变量值是否是数字|
 |scalar| 	检测变量是否是一个标量（标量变量是指那些包含了 integer、float、string 或 boolean的变量，而 array、object 和 resource 则不是标量。） |
 |iterable| 	检查变量值是否可被迭代生成|
-|divisibleby| 	检查变量值是否可被分割|
+|divisibleby| 	检查变量值是否可被某一个值或符号分割|
 |sameas| 	检查变量值是否相同|
 |type| 	检查变量值是否是给定类型|
 
-eg:
+`defined`
 
-```
-{% if robot is defined %}
-    The robot variable is defined
-{% endif %}
-
-{% if robot is empty %}
-    The robot is null or isn't defined
-{% endif %}
-
-{% for key, name in [1: 'Voltron', 2: 'Astroy Boy', 3: 'Bender'] %}
-    {% if key is even %}
-        {{ name }}
+用法示例：
+    {% if robot is defined %}
+        The robot variable is defined
     {% endif %}
-{% endfor %}
 
-{% for key, name in [1: 'Voltron', 2: 'Astroy Boy', 3: 'Bender'] %}
-    {% if key is odd %}
-        {{ name }}
+`empty`
+
+用法示例：
+
+    {% if robot is empty %}
+        The robot is null or isn't defined
     {% endif %}
-{% endfor %}
 
-{% for key, name in [1: 'Voltron', 2: 'Astroy Boy', 'third': 'Bender'] %}
-    {% if key is numeric %}
-        {{ name }}
-    {% endif %}
-{% endfor %}
+`even`
 
-{% set robots = [1: 'Voltron', 2: 'Astroy Boy'] %}
-{% if robots is iterable %}
-    {% for robot in robots %}
-        ...
+用法示例：
+
+    {% for key, name in [1: 'Voltron', 2: 'Astroy Boy', 3: 'Bender'] %}
+        {% if key is even %}
+            {{ name }}
+        {% endif %}
     {% endfor %}
-{% endif %}
 
-{% set world = "hello" %}
-{% if world is sameas("hello") %}
-    {{ "it's hello" }}
-{% endif %}
+`odd`
 
-{% set external = false %}
-{% if external is type('boolean') %}
-    {{ "external is false or true" }}
-{% endif %}
+用法示例：
+
+    {% for key, name in [1: 'Voltron', 2: 'Astroy Boy', 3: 'Bender'] %}
+        {% if key is odd %}
+            {{ name }}
+        {% endif %}
+    {% endfor %}
+
+`numeric`
+
+用法示例：
+
+    {% for key, name in [1: 'Voltron', 2: 'Astroy Boy', 'third': 'Bender'] %}
+        {% if key is numeric %}
+            {{ name }}
+        {% endif %}
+    {% endfor %}
+
+`scalar`
+
+用法示例：
+输入：
+
+    {% set robots = 'a' %}
+    {% if robots is scalar %}
+        {{ 'True' }}
+    {% endif %}
+
+    {% set robots = ['a','b'] %}
+    {% if robots is not scalar %}
+        {{ 'True' }}
+    {% endif %}
+输出：
+
+    True
+    True
+
+`iterable`
+
+用法示例：
+
+    {% set robots = [1: 'Voltron', 2: 'Astroy Boy'] %}
+    {% if robots is iterable %}
+        {% for robot in robots %}
+            ...
+        {% endfor %}
+    {% endif %}
+
+`divisibleby`
+
+用法示例：
+
+    {% set robots = 'a,b,c' %}
+    {% if robots is divisibleby(",") %}
+            ...
+    {% endif %}
+
+
+`sameas`
+
+用法示例：
+
+    {% set world = "hello" %}
+    {% if world is sameas("hello") %}
+        {{ "it's hello" }}
+    {% endif %}
+
+`type`
+
+用法示例：
+
+    {% set external = false %}
+    {% if external is type('boolean') %}
+        {{ "external is false or true" }}
+    {% endif %}
 ```
 ###~~宏定义（禁用/结合片段使用）~~
 
@@ -377,12 +734,6 @@ eg:
 
 ###~~注入服务到模版(禁用)~~
 
-
-
-
-
-
 ###独立组件&外部资源&扩展（开发）
-
 
 ###缓存视图片段（考虑结合动态片段更新）
