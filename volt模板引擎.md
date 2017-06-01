@@ -345,59 +345,52 @@
 
     <div>abcd</div>
 
-
 <h3 id="2.5">流程控制</h3>
 <h4>循环语句for</h4>
 
-```
-{% set numbers = ['one': 1, 'two': 2, 'three': 3] %}
-
 输入：
 
-{% for value in numbers %}
-    Value: {{ value }}<br>    
-{% endfor %}
+    {% set numbers = ['one': 1, 'two': 2, 'three': 3] %}
+    {% for value in numbers %}
+        Value: {{ value }}<br>    
+    {% endfor %}
 
 输出：
 
-Value:1
-Value:2
-Value:3
+    Value:1
+    Value:2
+    Value:3
 
 输入：
 
-{% for name, value in numbers %}
-    Name: {{ name }} Value: {{ value }}<br>
-{% endfor %}
+    {% for name, value in numbers %}
+        Name: {{ name }} Value: {{ value }}<br>
+    {% endfor %}
 
 输出：
-Name: one Value:1
-Name: two Value:2
-Name: three Value:3
 
-
-```
+    Name: one Value:1
+    Name: two Value:2
+    Name: three Value:3
 
 <h4>条件判断语句if</h4>
 
-```
-if...else
+`if...else`
 
-{# 判断data变量是否为非空 #}
-{% if data is not empty %}
-	...     
-{% else %}
-	{% break %}
-{% endif %}
+    {# 判断data变量是否为非空 #}
+    {% if data is not empty %}
+	     ...     
+    {% else %}
+	     {% break %}
+    {% endif %}
 
-if
+`if`
 
-{# 判断index的值是否等于7 #}
-{% if index is 7 %}
-     {% break %}
-{% endif %}
+    {# 判断index的值是否等于7 #}
+    {% if index is 7 %}
+        {% break %}
+    {% endif %}
 
-```
 <h4>循环上下文（Loop Context）</h4>
 
 循环上下文关键字 loop 在for循环中可用，它就是一个迭代生成器，使用它，你可以方便的进行一些判断和复位操作。
@@ -407,32 +400,32 @@ loop中主要包含以下可用变量：
 |:--:|:--:|
 |loop.index| 	迭代生成器的当前索引值|
 |loop.index0| 	迭代生成器的第一个索引值|
-|loop.revindex| 	indexed)|
-|loop.revindex0| 	 indexed)|
+|loop.revindex| 	将迭代器指针指向上一个元素|
+|loop.revindex0| 	 将迭代器指针指向第一个元素|
 |loop.first| 	是否是迭代生成器中的第一个元素|
 |loop.last| 	是否是迭代生成器中的最后一个元素|
 |loop.length| 	迭代生成器中元素个数|
 
-```
-{% for robot in robots %}
-    {% if loop.first %}
-        <table>
-            <tr>
-                <th>#</th>
-                <th>Id</th>
-                <th>Name</th>
-            </tr>
-    {% endif %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ robot.id }}</td>
-                <td>{{ robot.name }}</td>
-            </tr>
-    {% if loop.last %}
-        </table>
-    {% endif %}
-{% endfor %}
-```
+用法示例：
+
+    {% for robot in robots %}
+        {% if loop.first %}
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Id</th>
+                    <th>Name</th>
+                </tr>
+        {% endif %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ robot.id }}</td>
+                    <td>{{ robot.name }}</td>
+                </tr>
+        {% if loop.last %}
+            </table>
+        {% endif %}
+    {% endfor %}
 
 <h3 id="2.6">表达式（Expressions）</h3>
 
@@ -460,6 +453,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 运算符主要包括算术运算符、比较运算符、逻辑运算符合其它运算符
 
 <h4>算术运算符</h4>
+
 |操作符	|	作用|示例
 |:--:|:--:|:--:|
 |+| 	加法操作|{% a+b %}|
@@ -469,6 +463,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 |%| 	取余操作|{% a%b %}|
 
 <h4>比较运算符</h4>
+
 |操作符	|	作用|
 |:--:|:--:|
 |==| 	等于（数值相同）|
@@ -482,6 +477,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 |!==| 	不全等于（数值和类型至少有一样不同）|
 
 <h4>逻辑运算符</h4>
+
 |操作符	|	作用|
 |:--:|:--:|
 |or|     或|
@@ -490,6 +486,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 |(expr)|  表达式|
 
 <h4>其它运算符</h4>
+
 |操作符	|	作用|
 |:--:|:--:|
 |~| 	连接两个操作数|
@@ -707,7 +704,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
         {{ "external is false or true" }}
     {% endif %}
 
-<h3>~~宏定义（禁用/结合片段使用）~~</h3>
+<h3>宏定义（禁用/结合片段使用）</h3>
 
 宏定义可以重用模板逻辑，和其它方法一样可以接收参数和返回值
 ```
