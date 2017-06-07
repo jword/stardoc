@@ -103,7 +103,7 @@
 |nl2br| 在字符串所有新行之前插入 HTML 换行标记|
 |sort| 	对数组进行排序并保持索引关系|
 |keys| 	返回数组的所有键值|
-|join |	将一个字符串分割为数组|
+|join |	将一个数组分割为字符串|
 |format| 	把格式化的字符串写入变量中（sprintf）|
 |json_encode| 	对变量进行 JSON 编码|
 |json_decode|  对 JSON 格式的字符串进行解码|
@@ -161,7 +161,7 @@
 输入：
 
     {% set name='"小明"' %}
-    {{ name|striptags }}
+    {{ name|slashes }}
 
 输出：
 
@@ -195,7 +195,7 @@
 输入：
 
     {% set name='my name 你好' %}
-    {{ name|striptags }}
+    {{ name|upper }}
 
 输出：
 
@@ -205,75 +205,94 @@
 
 输入：
 
-    {% set data= ['小明','小红','小强'] %}
+    {% set data=['小明','小红','小强'] %}
+    {{ data|length }}
+    
+    {% set data='小强' %}
+    {{ data|length }}
+    
+    {% set data='abcd' %}
     {{ data|length }}
 
 输出：
 
     3
+    2
+    4
 
 `nl2br`
 
 输入：
 
-    {% set name= 'a\nb\nc' %}
-    {{ data|length }}
+    {% set name='a
+    b
+    c' %}
+    {{ name|nl2br }}
 
 输出：
 
-    a<br/>b<br/>c
+    a<br />
+    b<br />
+    c
 
 `sort`
 
 输入：
 
-    {% set data= ['a'=>3,'b'=>1,'c'=>2] %}
-    {{ data|sort }}
+    {% set data=['a':3,'b':1,'c':2] %}
+    {% set data=data|sort %}
+    {{ dump(data) }}
 
 输出：
 
-    ['b'=>1,'c'=>2,a'=>3]
+    array(3) { ["b"]=> int(1) ["c"]=> int(2) ["a"]=> int(3) } 
 
 
 `keys`
 
 输入：
 
-    {% set data= ['a'=>3,'b'=>1,'c'=>2] %}
-    {{ data|keys }}
+    {% set data=['a':3,'b':1,'c':2] %}
+    {% set data=data|keys %}
+    {{ dump(data) }}
 
 输出：
 
-    ['a','b','c']
+    array(3) { [0]=> string(1) "a" [1]=> string(1) "b" [2]=> string(1) "c" } 
 
 `join`
 
 输入：
 
-    {% set string= 'a,b,c' %}
-    {{ string|join(",") }}
+    {% set data=['a':3,'b':1,'c':2] %}
+    {{ data|join(",") }}
 
 输出：
 
-    ['a','b','c']
+    3,1,2
 
 
 `format`
 
-用法示例：
+输入：
+    
+    {% set myname='xiaoming' %}
+    {{ "My real name is %s"|format(myname) }}
 
-    {{ "My real name is %s"|format(name) }}
+输出：
+
+    My real name is xiaoming
 
 `json_encode`
 
-示例：
+用法示例：
 
     {% set encoded = robots|json_encode %}
 
 
 `json_decode`
 
-示例：
+用法示例：
 
     {% set decoded = '{"one":1,"two":2,"three":3}'|json_decode %}
 
@@ -296,6 +315,7 @@
 `url_encode`
 
 用法示例：
+
 输入：
 
     {% set url = 'http://www.baidu.com' %}
@@ -326,8 +346,8 @@
 
 用法示例：
 
-    {# 将latin1编码转换为utf8 #}
-    {{ "désolé"|convert_encoding('utf8', 'latin1') }}
+    {# 从EUC-JP编码转换为UTF-7 #}
+    {{ "abasds"|convert_encoding("UTF-7", "EUC-JP") }}
 
 
 <h3 id="2.4">注释（Comments）</h3>
@@ -604,6 +624,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 `defined`
 
 用法示例：
+
     {% if robot is defined %}
         The robot variable is defined
     {% endif %}
