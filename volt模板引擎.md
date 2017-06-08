@@ -418,33 +418,62 @@ loop中主要包含以下可用变量：
 
 |变量	|	描述|
 |:--:|:--:|
-|loop.index| 	迭代生成器的当前索引值|
-|loop.index0| 	迭代生成器的第一个索引值|
-|loop.revindex| 	将迭代器指针指向上一个元素|
-|loop.revindex0| 	 将迭代器指针指向第一个元素|
+|loop.index| 	迭代生成器从1开始计数的当前索引值|
+|loop.index0| 	迭代生成器从0开始计数的当前索引值|
+|loop.revindex| 迭代生成器逆向从1开始计数的当前索引值|
+|loop.revindex0| 迭代生成器逆向从0开始计数的当前索引值|
 |loop.first| 	是否是迭代生成器中的第一个元素|
 |loop.last| 	是否是迭代生成器中的最后一个元素|
 |loop.length| 	迭代生成器中元素个数|
 
 用法示例：
 
+`loop.index`
+
+输入：
+
+    {% set  robots= ['a','b','c'] %}
     {% for robot in robots %}
-        {% if loop.first %}
-            <table>
-                <tr>
-                    <th>#</th>
-                    <th>Id</th>
-                    <th>Name</th>
-                </tr>
-        {% endif %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ robot.id }}</td>
-                    <td>{{ robot.name }}</td>
-                </tr>
-        {% if loop.last %}
-            </table>
-        {% endif %}
+        {{ loop.index }} 
+    {% endfor %}
+    <br />
+    {% for robot in robots %}
+        {{ loop.index0 }} 
+    {% endfor %}
+    <br />
+    {% for robot in robots %}
+        {{ loop.revindex }} 
+    {% endfor %}
+    <br />
+    {% for robot in robots %}
+        {{ loop.revindex0 }} 
+    {% endfor %}
+
+输出
+
+    1 2 3
+    0 1 2
+    3 2 1
+    2 1 0 
+
+    {% set robots = [['id':0,'name':'a'],['id':1,'name':'b'],['id':2,'name':'c']] %}
+    {% for robot in robots %}
+      {% if loop.first %}
+          <table>
+              <tr>
+                  <th>#</th>
+                  <th>Id</th>
+                  <th>Name</th>
+              </tr>
+      {% endif %}
+              <tr>
+                  <td>{{ loop.index }}</td>
+                  <td>{{ robot['id'] }}</td>
+                  <td>{{ robot['name'] }}</td>
+              </tr>
+      {% if loop.last %}
+          </table>
+      {% endif %}
     {% endfor %}
 
 <h3 id="2.6">表达式（Expressions）</h3>
