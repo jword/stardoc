@@ -515,15 +515,15 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 
 |操作符	|	作用|
 |:--:|:--:|
-|==| 	等于（数值相同）|
+|==| 	等于（元素值相同）|
 |!=|    不等于|
 |<>| 	不等于|
 |>|     大于|
 |<| 	小于|
 |<=|    小于等于|
 |>=| 	大于等于|
-|===|   全等于（数值和类型都相同）|
-|!==| 	不全等于（数值和类型至少有一样不同）|
+|===|   全等于（元素值和类型都相同）|
+|!==| 	不全等于（元素值和类型至少有一样不同）|
 
 <h4>逻辑运算符</h4>
 
@@ -626,27 +626,20 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
     {{ dump(data) }}
 输出：
 
-    array(3) {
-      ["one"]=>
-      int(1)
-      ["two"]=>
-      int(2)
-      ["three"]=>
-      int(3)
-    }
+    array(3) { ["one"]=> int(1) ["two"]=> int(2) ["three"]=> int(3) } 
 
 <h3 id="2.9">校验方法</h3>
 
 |方法名	|	作用|
 |:--:|:--:|
 |defined| 	检查变量是否被定义|
-|empty| 	检查变量是否为空|
+|empty| 	检查变量是否为空（未定义、空字符串、空数组、0、null、false等均认为为空）|
 |even| 	检查变量值是否是偶数|
 |odd| 	 检查变量值是否是奇数|
 |numeric| 	检查变量值是否是数字|
 |scalar| 	检测变量是否是一个标量（标量变量是指那些包含了 integer、float、string 或 boolean的变量，而 array、object 和 resource 则不是标量。） |
 |iterable| 	检查变量值是否可被迭代生成|
-|divisibleby| 	检查变量值是否可被某一个值或符号分割|
+|divisibleby| 	检查变量值是否可被整除|
 |sameas| 	检查变量值是否相同|
 |type| 	检查变量值是否是给定类型|
 
@@ -670,7 +663,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 
 用法示例：
 
-    {% for key, name in [1: 'Voltron', 2: 'Astroy Boy', 3: 'Bender'] %}
+    {% for key, name in ['Voltron', 'Astroy Boy', 'Bender'] %}
         {% if key is even %}
             {{ name }}
         {% endif %}
@@ -680,7 +673,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 
 用法示例：
 
-    {% for key, name in [1: 'Voltron', 2: 'Astroy Boy', 3: 'Bender'] %}
+    {% for key, name in ['Voltron', 'Astroy Boy', 'Bender'] %}
         {% if key is odd %}
             {{ name }}
         {% endif %}
@@ -690,7 +683,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 
 用法示例：
 
-    {% for key, name in [1: 'Voltron', 2: 'Astroy Boy', 'third': 'Bender'] %}
+    {% for key, name in ['Voltron', 'Astroy Boy', 'third': 'Bender'] %}
         {% if key is numeric %}
             {{ name }}
         {% endif %}
@@ -722,7 +715,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
     {% set robots = [1: 'Voltron', 2: 'Astroy Boy'] %}
     {% if robots is iterable %}
         {% for robot in robots %}
-            ...
+            {{ robot }}
         {% endfor %}
     {% endif %}
 
@@ -730,9 +723,9 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 
 用法示例：
 
-    {% set robots = 'a,b,c' %}
-    {% if robots is divisibleby(",") %}
-            ...
+    {% set robots = 10 %}
+    {% if robots is divisibleby(5) %}
+            10 can divisible by 5
     {% endif %}
 
 
