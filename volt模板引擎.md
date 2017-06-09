@@ -370,8 +370,8 @@
 
 输入：
 
-    {% set numbers = ['one': 1, 'two': 2, 'three': 3] %}
-    {% for value in numbers %}
+    {% set data = ['one': 1, 'two': 2, 'three': 3] %}
+    {% for value in data %}
         Value: {{ value }}<br>    
     {% endfor %}
 
@@ -383,7 +383,7 @@
 
 输入：
 
-    {% for name, value in numbers %}
+    {% for name, value in data %}
         Name: {{ name }} Value: {{ value }}<br>
     {% endfor %}
 
@@ -413,18 +413,19 @@
 
 <h4>循环上下文（Loop Context）</h4>
 
-循环上下文关键字 loop 在for循环中可用，它就是一个迭代生成器，使用它，你可以方便的进行一些判断和复位操作。
-loop中主要包含以下可用变量：
+循环上下文关键字 loop 在for循环中可用，使用它，你可以方便的进行一些判断和计数操作。
+我们可以把它看做是一个循环计数器，用它来记录元素在当前循环中的位置。
+loop中主要包含以下可用属性：
 
 |变量	|	描述|
 |:--:|:--:|
-|loop.index| 	迭代生成器从1开始计数的当前索引值|
-|loop.index0| 	迭代生成器从0开始计数的当前索引值|
-|loop.revindex| 迭代生成器逆向从1开始计数的当前索引值|
-|loop.revindex0| 迭代生成器逆向从0开始计数的当前索引值|
-|loop.first| 	是否是迭代生成器中的第一个元素|
-|loop.last| 	是否是迭代生成器中的最后一个元素|
-|loop.length| 	迭代生成器中元素个数|
+|loop.index| 	   当前元素在从1开始计数的循环计数器中的位置|
+|loop.index0| 	 当前元素在从0开始计数的循环计数器中的位置|
+|loop.revindex|  当前元素在逆向从1开始计数的循环计数器中的位置|
+|loop.revindex0| 当前元素在逆向从0开始计数的循环计数器中的位置|
+|loop.first| 	是否是循环中的第一个元素|
+|loop.last| 	是否是循环中的最后一个元素|
+|loop.length| 	循环中的元素个数|
 
 用法示例：
 
