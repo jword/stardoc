@@ -32,9 +32,9 @@
 
    Volt模板在不同的场景使用不同的开始和结束标记: 
 
-   {% 和 %} 用于流程控制语句如if判断、for循环及赋值处理等等  
+   {% 和 %} 用于执行流程控制语句如if判断、for循环及赋值处理等 
 
-   {{ 和 }} 用于在模板中输出变量或表达式的执行结果。
+   {{ 和 }} 用于在模板中输出变量、函数或表达式的执行结果。
 
    {# 和 #} 用于输出注释内容
 
@@ -288,7 +288,7 @@
 
 用法示例：
 
-    {% set encoded = robots|json_encode %}
+    {% set encoded = data|json_encode %}
 
 
 `json_decode`
@@ -394,6 +394,50 @@
     Name: two Value:2
     Name: three Value:3
 
+for循环与if语句连用：
+
+    {% for name,value in data if value < 2 %}
+      Value: {{ value }}<br>
+    {% endfor %}
+
+输出：
+
+    Value:1
+    Value:2
+
+for循环与else/elsefor连用（当data中的元素个数为0时，else/elsefor语句将被执行）
+
+用法示例：
+
+    {% set data = [] %}
+    {% for name,value in data %}
+      Value: {{ value }}<br>
+    {% else %}
+        暂无内容<br>
+    {% endfor %}
+    
+    {% for name,value in data %}
+      Value: {{ value }}<br>
+    {% elsefor %}
+        暂无内容
+    {% endfor %}
+
+`break`
+break语句用于跳出循环
+用法示例：
+输入：
+
+    {% set data = ['one': 1, 'two': 2, 'three': 3] %}
+    {% for name,value in data %}
+      {% if name == 'two' %}
+        {% break %}
+      {% endif %}
+      {{ value }}
+    {% endfor %}
+输出：
+
+    1
+
 <h4>条件判断语句if</h4>
 
 `if...else`
@@ -434,20 +478,20 @@ loop中主要包含以下可用属性：
 
 输入：
 
-    {% set  robots= ['a','b','c'] %}
-    {% for robot in robots %}
+    {% set  data= ['a','b','c'] %}
+    {% for value in data %}
         {{ loop.index }} 
     {% endfor %}
     <br />
-    {% for robot in robots %}
+    {% for value in data %}
         {{ loop.index0 }} 
     {% endfor %}
     <br />
-    {% for robot in robots %}
+    {% for value in data %}
         {{ loop.revindex }} 
     {% endfor %}
     <br />
-    {% for robot in robots %}
+    {% for value in data %}
         {{ loop.revindex0 }} 
     {% endfor %}
 
@@ -458,8 +502,8 @@ loop中主要包含以下可用属性：
     3 2 1
     2 1 0 
 
-    {% set robots = [['id':0,'name':'a'],['id':1,'name':'b'],['id':2,'name':'c']] %}
-    {% for robot in robots %}
+    {% set data = [['id':0,'name':'a'],['id':1,'name':'b'],['id':2,'name':'c']] %}
+    {% for value in data %}
       {% if loop.first %}
           <table>
               <tr>
@@ -470,8 +514,8 @@ loop中主要包含以下可用属性：
       {% endif %}
               <tr>
                   <td>{{ loop.index }}</td>
-                  <td>{{ robot['id'] }}</td>
-                  <td>{{ robot['name'] }}</td>
+                  <td>{{ value['id'] }}</td>
+                  <td>{{ value['name'] }}</td>
               </tr>
       {% if loop.last %}
           </table>
@@ -649,16 +693,16 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 
 用法示例：
 
-    {% if robot is defined %}
-        The robot variable is defined
+    {% if name is defined %}
+        The name variable is defined
     {% endif %}
 
 `empty`
 
 用法示例：
 
-    {% if robot is empty %}
-        The robot is null or isn't defined
+    {% if name is empty %}
+        The name is null or isn't defined
     {% endif %}
 
 `even`
@@ -696,13 +740,13 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 用法示例：
 输入：
 
-    {% set robots = 'a' %}
-    {% if robots is scalar %}
+    {% set data = 'a' %}
+    {% if data is scalar %}
         {{ 'True' }}
     {% endif %}
 
-    {% set robots = ['a','b'] %}
-    {% if robots is not scalar %}
+    {% set data = ['a','b'] %}
+    {% if data is not scalar %}
         {{ 'True' }}
     {% endif %}
 输出：
@@ -714,10 +758,10 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 
 用法示例：
 
-    {% set robots = [1: 'Voltron', 2: 'Astroy Boy'] %}
-    {% if robots is iterable %}
-        {% for robot in robots %}
-            {{ robot }}
+    {% set data = [1: 'Voltron', 2: 'Astroy Boy'] %}
+    {% if data is iterable %}
+        {% for value in data %}
+            {{ value }}
         {% endfor %}
     {% endif %}
 
@@ -725,8 +769,8 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 
 用法示例：
 
-    {% set robots = 10 %}
-    {% if robots is divisibleby(5) %}
+    {% set data = 10 %}
+    {% if data is divisibleby(5) %}
             10 can divisible by 5
     {% endif %}
 
