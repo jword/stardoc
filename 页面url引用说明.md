@@ -34,4 +34,23 @@
 
 <h2 id="3">页面url引用说明</h2>
 
+五星网站中统一生称url的的方法为;
+
+    {{ Url.get('xxx') }}
+
+列表页、单页地址生成方式:
+
+    {{ Url.get('hashid') }}
+
+详情页、固定链接、外链地址生成方式:
+
+    {{ Url.get('http://www.baidu.com') }}
+    {{ Url.get('/login.html') }}
+
+详情页地址生成方式:
+
+    默认：{{ Url.get('/model/d_id.html') }}
+    自定义：{{ Url.get('hashid') }}
+
+
 
