@@ -91,9 +91,9 @@
 
 |过滤器	|	描述|
 |:--:|:--:|
-|trim| 删除左右两侧多余的空格|
-|left_trim| 删除左侧多余的空格|
-|right_trim| 删除右侧多余的空格|
+|trim| 删除左右两侧多余的字符|
+|left_trim| 删除左侧多余的字符|
+|right_trim| 删除右侧多余的字符|
 |striptags| 删除变量中的html标记|
 |slashes| 	在字符串中的单引号（'）、双引号（"）、反斜线（\）与 NUL字符前加上反斜线|
 |stripslashes| 	去除字符串中的转义反斜线|
@@ -117,11 +117,16 @@
 
 输入：
 
+    {# 默认不传参数为删除左右两侧的空格 #}
     {% set name=' 小明 ' %}
     {{ name|trim }}
+    {# 传参数则为删除左右两侧参数中的字符串 #}
+    {% set name='aaa小明aaa' %}
+    {{ name|trim('aaa') }}
 
 输出：
 
+    小明
     小明
 
 `left_trim` 
@@ -592,9 +597,48 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 |is|     等于|
 |in| 	检查表达式是否包含在其他表达式中|
 |is not|   不等于|
-|'a' ? 'b' : 'c'|   三目运算|
+|a ? b : c|   三目运算|
 |++| 	自增|
 |--| 	自减|
+
+`~`
+
+用法示例：
+
+    {# 连接两个字符串并去除最右侧的 '-' 字符  #}
+    {% set prop = '' %}
+    {% set property = ['a','b','c'] %}
+    {% for item in property %}
+        {% set prop = prop~item['val']~'-' %}
+    {% endfor %}
+    {{ prop|right_trim('-') }}
+    
+    {# 输出：a-b-c  #}
+
+`..`
+
+用法示例：
+
+    {# 创建一个包含指定范围单元的数组 #}
+    {% for index in 0..2 %}
+        {{ index }}
+    {% endfor %}
+    
+    {# 输出：0 1 2  #}
+
+`a ? b : c`
+
+用法示例：
+
+    {# 三目运算：a为真则执行b否则执行c #}
+    {% set a=true %}
+    {{ a ? 'true ' : 'false ' }}
+    {% set a='2' %}
+    {{ a ? 'true ' : 'false ' }}
+    {% set a='' %}
+    {{ a ? 'true ' : 'false ' }}
+    
+    {# 输出：true true false #}
 
 <h3 id="2.8">函数</h3>
 
@@ -654,24 +698,18 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 
 用法示例：
 
-输入：
-
     {{ date('Y年m月d日 H:i:s',1496222729) }}
-输出：
-
-    2017年5月31日 17:25:29
+    
+    {# 输出：2017年5月31日 17:25:29 #}
 
 `dump`
 
 用法示例：
 
-输入：
-
     {% set data = ['one': 1, 'two': 2, 'three': 3] %}
     {{ dump(data) }}
-输出：
-
-    array(3) { ["one"]=> int(1) ["two"]=> int(2) ["three"]=> int(3) } 
+    
+    {# 输出：array(3) { ["one"]=> int(1) ["two"]=> int(2) ["three"]=> int(3) } #}
 
 <h3 id="2.9">校验方法</h3>
 
