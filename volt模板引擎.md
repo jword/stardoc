@@ -12,27 +12,27 @@
      7. [运算符](#2.7)
      8. [函数](#2.8)
      9. [校验方法](#2.9)
-     10. [~~宏定义（禁用/结合片段使用）~~](#2.10)
-3. [五星网站内置对象用法](#3)
-    
+    10. [~~宏定义（禁用/结合片段使用）~~](#2.10)
+  3. [五星网站内置对象用法](#3)
 
-   
+
+
 <h2 id="1">简介</h2>
-   
+
    Volt 是一个用C编写的超快的并且对设计师友好的模板语言。Volt 提供一组辅助工具有助于你以一种更简单的的方式编写页面模板。
-   
+
    五星网站的页面及模板，都是基于volt模板引擎开发，它是网站页面模板构建的基础，熟练掌握模板引擎的语法结构，可以让你快速地构建自己的个性化网站。
-   
-   
+
+
 <h2 id="2">基本用法</h2>
 
    下面介绍一些基础用法:
-   
+
 <h3 id="2.1">开始与结束标记</h3>
 
-   Volt模板在不同的场景使用不同的开始和结束标记: 
+   Volt模板在不同的场景使用不同的开始和结束标记:
 
-   {% 和 %} 用于执行流程控制语句如if判断、for循环及赋值处理等 
+   {% 和 %} 用于执行流程控制语句如if判断、for循环及赋值处理等
 
    {{ 和 }} 用于在模板中输出变量、函数或表达式的执行结果。
 
@@ -70,9 +70,9 @@
 
 通过foo['bar']的形式访问数组变量：
 
-{{ array[0] }} 
+{{ array[0] }}
 
-{{ array['first'] }} 
+{{ array['first'] }}
 
 ```
 
@@ -113,7 +113,7 @@
 |default 	| 为变量设置一个默认值（如果变量为空或未设置）|
 |convert_encoding| 	转换字符编码|
 
-`trim` 
+`trim`
 
 输入：
 
@@ -129,7 +129,7 @@
     小明
     小明
 
-`left_trim` 
+`left_trim`
 
 输入：
 
@@ -138,9 +138,9 @@
 
 输出：
 
-    小明 
+    小明
 
-`right_trim` 
+`right_trim`
 
 输入：
 
@@ -148,7 +148,7 @@
     {{ name|right_trim }}
 
 输出：
-  
+
      小明
 
 `striptags`
@@ -213,10 +213,10 @@
 
     {% set data=['小明','小红','小强'] %}
     {{ data|length }}
-    
+
     {% set data='小强' %}
     {{ data|length }}
-    
+
     {% set data='abcd' %}
     {{ data|length }}
 
@@ -251,7 +251,7 @@
 
 输出：
 
-    array(3) { ["b"]=> int(1) ["c"]=> int(2) ["a"]=> int(3) } 
+    array(3) { ["b"]=> int(1) ["c"]=> int(2) ["a"]=> int(3) }
 
 
 `keys`
@@ -264,7 +264,7 @@
 
 输出：
 
-    array(3) { [0]=> string(1) "a" [1]=> string(1) "b" [2]=> string(1) "c" } 
+    array(3) { [0]=> string(1) "a" [1]=> string(1) "b" [2]=> string(1) "c" }
 
 `join`
 
@@ -281,7 +281,7 @@
 `format`
 
 输入：
-    
+
     {% set myname='xiaoming' %}
     {{ "My real name is %s"|format(myname) }}
 
@@ -378,7 +378,7 @@
 
     {% set data = ['one': 1, 'two': 2, 'three': 3] %}
     {% for value in data %}
-        Value: {{ value }}<br>    
+        Value: {{ value }}<br>
     {% endfor %}
 
 输出：
@@ -420,7 +420,7 @@ for循环与else/elsefor连用（当data中的元素个数为0时，else/elsefor
     {% else %}
         暂无内容<br>
     {% endfor %}
-    
+
     {% for name,value in data %}
       Value: {{ value }}<br>
     {% elsefor %}
@@ -451,7 +451,7 @@ break语句用于跳出循环
 
     {# 判断data变量是否为非空 #}
     {% if data is not empty %}
-	     ...     
+	     ...
     {% else %}
 	     {% break %}
     {% endif %}
@@ -487,19 +487,19 @@ loop中主要包含以下可用属性：
 
     {% set  data= ['a','b','c'] %}
     {% for value in data %}
-        {{ loop.index }} 
+        {{ loop.index }}
     {% endfor %}
     <br />
     {% for value in data %}
-        {{ loop.index0 }} 
+        {{ loop.index0 }}
     {% endfor %}
     <br />
     {% for value in data %}
-        {{ loop.revindex }} 
+        {{ loop.revindex }}
     {% endfor %}
     <br />
     {% for value in data %}
-        {{ loop.revindex0 }} 
+        {{ loop.revindex0 }}
     {% endfor %}
 
 输出
@@ -507,7 +507,7 @@ loop中主要包含以下可用属性：
     1 2 3
     0 1 2
     3 2 1
-    2 1 0 
+    2 1 0
 
     {% set data = [['id':0,'name':'a'],['id':1,'name':'b'],['id':2,'name':'c']] %}
     {% for value in data %}
@@ -533,7 +533,7 @@ loop中主要包含以下可用属性：
 
 volt模板引擎提供表达式支持，包括文字和常见操作符
 
-输入: 
+输入:
 
     {{ (1 + 1) * 2 }}
 
@@ -552,7 +552,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
     此时只会执行表达式，不会有任何输出
 
 <h3 id="2.7">运算符</h3>
-运算符主要包括算术运算符、比较运算符、逻辑运算符合其它运算符
+运算符主要包括算术运算符、比较运算符、逻辑运算符和其它运算符
 
 <h4>算术运算符</h4>
 
@@ -612,7 +612,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
         {% set prop = prop~item['val']~'-' %}
     {% endfor %}
     {{ prop|right_trim('-') }}
-    
+
     {# 输出：a-b-c  #}
 
 `..`
@@ -623,7 +623,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
     {% for index in 0..2 %}
         {{ index }}
     {% endfor %}
-    
+
     {# 输出：0 1 2  #}
 
 `a ? b : c`
@@ -637,7 +637,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
     {{ a ? 'true ' : 'false ' }}
     {% set a='' %}
     {{ a ? 'true ' : 'false ' }}
-    
+
     {# 输出：true true false #}
 
 <h3 id="2.8">函数</h3>
@@ -651,6 +651,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 |time| 	返回当前的 Unix 时间戳|
 |date| 	格式化输出一个本地时间／日期 |
 |dump| 	输出一个或多个表达式的结构信息，包括表达式的类型与值。数组将递归展开值，通过缩进显示其结构。|
+|slice| 从字符串/数组中截取一部分
 
 `super`
 
@@ -699,7 +700,7 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 用法示例：
 
     {{ date('Y年m月d日 H:i:s',1496222729) }}
-    
+
     {# 输出：2017年5月31日 17:25:29 #}
 
 `dump`
@@ -708,8 +709,27 @@ volt模板引擎提供表达式支持，包括文字和常见操作符
 
     {% set data = ['one': 1, 'two': 2, 'three': 3] %}
     {{ dump(data) }}
-    
+
     {# 输出：array(3) { ["one"]=> int(1) ["two"]=> int(2) ["three"]=> int(3) } #}
+
+`slice`
+
+用法示例：
+
+    {% set data = ['one': 1, 'two': 2, 'three': 3] %}
+    {% set a = slice(data,0,1) %}
+    {{ dump(a) }}
+    <br/>
+    {% set data = 'abcdef' %}
+    {% set b = slice(data,0,2) %}
+    {{ dump(b) }}
+
+    输出：
+
+    array(1) { ["one"]=> int(1) }
+    string(2) "ab"
+
+
 
 <h3 id="2.9">校验方法</h3>
 
